@@ -1,1 +1,1 @@
-([:dependencies ([org.clojure/clojure "1.5.1"] [clj-time/clj-time "0.7.0"] [org.clojure/tools.nrepl "0.2.3" :exclusions ([org.clojure/clojure])] [clojure-complete/clojure-complete "0.2.3" :exclusions ([org.clojure/clojure])])])
+([:dependencies ([org.clojure/clojure "1.5.1"] [clj-time/clj-time "0.7.0"] [com.novemberain/monger "2.0.0-rc1"] [iota/iota "1.1.2"] [cheshire/cheshire "5.3.1"] [com.taoensso/carmine "2.6.2"] [org.clojure/tools.cli "0.2.4"])])

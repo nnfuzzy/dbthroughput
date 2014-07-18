@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 __author__ = 'nnfuzzy'
 
 import datetime
@@ -21,12 +23,13 @@ class Timer(object):
 
 class Throughput(object):
 
-    def init_mongo(self, db_name='test', collection_name='throughput_src'):
+    def init_mongo(self, db_name='throughput', collection_name='python_throughput_src'):
         try:
             c = pymongo.Connection()
             db= c[db_name]
             collection=db[collection_name]
-        except Exception , e:
+            collection.drop()
+        except Exception, e:
             print "Can't connect to mongodb!?"
         return collection
 
@@ -36,11 +39,12 @@ class Throughput(object):
         return timestamp
 
 
+    @profile()
     def insert_timestamp_values(self, collection,
                                 datetime_start='2013-01-01 00:00:00',
                                 datetime_end='2014-01-01 00:00:00',
                                 amount_ids=1000,
-                                delay_sec=10,
+                                delay_sec=200,
                                 truncate=False):
         if truncate:
             collection.drop()
@@ -77,7 +81,7 @@ class Throughput(object):
 
     @profile()
     def mongo_updater(self, src_collection, agg_collection):
-        cursor = src_collection.find().sort('ts', 1)
+        cursor = src_collection.find()
         for doc in cursor:
             id, ts = doc.get('id'), doc.get('ts')
             weekday, hour = self.timestamp_lookup(ts)
@@ -92,14 +96,8 @@ class Throughput(object):
 if __name__ == '__main__':
     thr = Throughput()
     throughput_src = thr.init_mongo()
-    throughput_agg = thr.init_mongo(collection_name='throughput_agg')
+    throughput_agg = thr.init_mongo(collection_name='python_throughput_agg')
     throughput_src.drop()
     throughput_agg.drop()
-    thr.insert_timestamp_values(throughput_src,delay_sec=3600)
+    thr.insert_timestamp_values(throughput_src, delay_sec=200)
     thr.mongo_updater(throughput_src, throughput_agg)
-
-
-
-
-
-
