@@ -81,15 +81,16 @@ class Throughput(object):
 
     @profile()
     def mongo_updater(self, src_collection, agg_collection):
+        agg_collection.ensure_index('id')
         cursor = src_collection.find()
         for doc in cursor:
             id, ts = doc.get('id'), doc.get('ts')
             weekday, hour = self.timestamp_lookup(ts)
             timeslot = "{}_{}".format(self.lookup_timeslot_day(weekday), hour)
             agg_collection.update({'id':id},
-                              {
-                                  '$inc':{timeslot: 1}
-                              }, upsert=True)
+                                  {
+                                      '$inc':{timeslot: 1}
+                                      }, upsert=True)
 
 
 

@@ -68,6 +68,7 @@
             src "clojure_throughput_src"
             agg "clojure_throughput_agg"]
         (mc/drop db agg)
+        (mc/ensure-index db agg (array-map :id 1) {:name "id_1"})
         (doseq [item (mc/find-maps db src {})]
           (let [doc (prepare_data item)]
             (mc/upsert db agg {:id (get doc :id)} {$inc {(symbol (get doc :dt)) 1}})
