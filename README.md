@@ -68,12 +68,10 @@ pip install pymongo profilehooks --user
 ### mongothroughput_clojure
 
 ```
-
-
 #### Inserts 
-Elapsed time: 20.091 seconds
+Elapsed time: 38.840 seconds
 #### Upsert
-Elapsed time: 26.470 seconds
+Elapsed time: 64.443 seconds
 
 ```
 
@@ -81,22 +79,13 @@ Elapsed time: 26.470 seconds
 
 ```
 
-#### Miss a lazy cursor to use it inside the aggregation
-system.time(rs <- mongo.find.all(mongo, "throughput.r_throughput_src",data.frame = T))
-       User      System verstrichen 
-   1119.524       0.000    1118.145 
+#### This is not a lazy cursor to use it inside the aggregation
 
 
 #### Inserts 
-system.time(loop_insert(dt_sequence=dt_sequence,N_IDS, mongo=mongo))
-       User      System verstrichen 
-    120.798       8.761     152.246 
    
 
 #### Upsert
-system.time(loop_aggregation(rs = rs,mongo = mongo))
-       User      System verstrichen 
-    229.931      10.223     294.029 
 
 
 
