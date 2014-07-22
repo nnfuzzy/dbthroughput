@@ -107,3 +107,4 @@ system.time(loop_aggregation(rs = rs,mongo = mongo))
 #### Author
 
 * [Christian Schulz](https://twitter.com/nnfuzzy) 
+* [www.mining-facts.com](http://www.mining-facts.com)
