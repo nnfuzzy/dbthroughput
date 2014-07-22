@@ -1,5 +1,4 @@
-(ns Throughput
-  (:gen-class))
+(ns Throughput)
 (require  '[monger.core :as mg]
           '[monger.collection :as mc]
           '[monger.operators :refer :all]
@@ -10,10 +9,37 @@
           '[clj-time.coerce :as tc]
           '[clj-time.periodic :as tp]
           '[clojure.core.reducers :as r]
-          '[clojure.tools.cli :refer [cli]]
-
 )
 
+(:use [clojure.tools.cli :only (cli)])
+(:gen-class :main true)
+
+
+(defn -main [& args]
+  (let [[opts args banner]
+        (cli args
+          ["-h" "--help" "Show help" :flag true :default false]
+          ["-d" "--delay" "Delay between messages (seconds)" :default 2]
+          ["-f" "--from" "REQUIRED: From address)"]
+          ["-e" "--email-file" "REQUIRED: Email addresses FILE)"]
+          ["-s" "--subject" "REQUIRED: Message subject"]
+          ["-m" "--message-file" "REQUIRED: Message FILE"]
+          ["-b" "--bcc" "BCC address"] ;; optional
+          ["-t" "--test" "Test mode does not send" :flag true :default false]
+          )]
+    (when (:help opts)
+      (println banner)
+      (System/exit 0))
+    (if
+      (and
+        (:from opts)
+        (:email-file opts)
+        (:subject opts)
+        (:message-file opts))
+      (do
+        (println "")
+        (run opts args))
+      (println banner))))
 
 
 (defmacro pdoseq
@@ -22,6 +48,18 @@
   (let [pairs (partition 2 seq-exprs)]
     `(do (doall (pmap (fn ~(vec (map first pairs)) ~@body) ~@(map
                                                                second pairs))) nil)))
+
+
+
+(defmacro dopar [seq-expr & body]
+  (assert (= 2 (count seq-expr)) "single pair of forms in sequence expression")
+  (let [[k v] seq-expr]
+    `(apply await
+       (for [k# ~v]
+         (let [a# (agent k#)]
+           (send a# (fn [~k] ~@body))
+           a#)))))
+
 
 (defn time-range
   [start end step]
