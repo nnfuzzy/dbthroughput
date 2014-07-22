@@ -81,7 +81,7 @@ Elapsed time: 26.470 seconds
 
 ```
 
-
+#### Miss a lazy cursor to use it inside the aggregation
 system.time(rs <- mongo.find.all(mongo, "throughput.r_throughput_src",data.frame = T))
        User      System verstrichen 
    1119.524       0.000    1118.145 
