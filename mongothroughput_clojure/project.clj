@@ -7,4 +7,4 @@
                  [cheshire "5.3.1"]
                  [com.taoensso/carmine "2.6.2"]
                  [org.clojure/tools.cli "0.2.4"]]
-  :main Throughput)
+ )

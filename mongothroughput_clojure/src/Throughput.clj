@@ -11,8 +11,7 @@
           '[clojure.core.reducers :as r]
 )
 
-(:use [clojure.tools.cli :only (cli)])
-(:gen-class :main true)
+
 
 
 

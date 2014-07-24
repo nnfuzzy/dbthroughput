@@ -51,21 +51,34 @@ optimized.
 ###  mongothroughput_python
 
 ```
-
 pip install pymongo profilehooks --user
 
-./mongothroughput_python/Throughput.py
+usage: Throughput.py [-h] [-d DELAY] [-a] [-i] [-uids UIDS] [--version]
+
+Throughput
+
+optional arguments:
+  -h, --help  show this help message and exit
+  -d DELAY    delay in seconds - density of data [200]
+  -a          do aggregation [False]
+  -i          do inserts [False]
+  -uids UIDS  do inserts [1000]
+  --version   show program's version number and exit
+
+
+../mongothrouhput/mongothroughput_python (git)-[master] % ./Throughput.py -i -a    
+Better than expected
 
 #### Inserts 
-16714687 function calls (16714686 primitive calls) in 27.489 seconds
-
+0:00:20.792899
 #### Upserts
-15928525 function calls (15928398 primitive calls) in 18.535 seconds
+0:00:15.371772
 
 
 ```
 
 ### mongothroughput_clojure
+Bottleneck?
 
 ```
 #### Inserts 
@@ -76,17 +89,17 @@ Elapsed time: 64.443 seconds
 ```
 
 ### mongothroughput_R
+Bottleneck?
+
+../mongothrouhput/mongothroughput_R/Rscript throughput_R.R 1000 200
+
 
 ```
-
-#### This is not a lazy cursor to use it inside the aggregation
-
-
-#### Inserts 
-   
+#### Inserts
+Time difference of 3.374865 mins
 
 #### Upsert
-
+Time difference of 4.375968 mins
 
 
 ```
