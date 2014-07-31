@@ -6,5 +6,8 @@
                  [iota "1.1.2"]
                  [cheshire "5.3.1"]
                  [com.taoensso/carmine "2.6.2"]
-                 [org.clojure/tools.cli "0.2.4"]]
+                 [org.clojure/tools.cli "0.3.1"]]
+
+  :plugins [[lein-bin "0.3.4"]]
+  :main throughput_clojure.throughput
  )

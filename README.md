@@ -1,9 +1,13 @@
-Mongothroughput
-===============
+dbthroughput
+============
 
-This is a simple attempt to compare the mongodb throughput with different client API's, because
-I want to know if pymongo is slower then others. In the first place the different solutions might be not
-optimized.
+This is a simple attempt comparing the throughput of different database products and client API. 
+Actually I suffer on the slowness in  writes with mongodb regarding big data. In the first place I was 
+interested if mongodb/pymongo is slower then others.  Data Mining is very often about meaningful 
+recoding/aggregation  of transaction data. Finally I choose the timestamp->timeslot example , because it is universal 
+and could be extended.
+
+The realization for the different solutions might be not ideal. 
 
 
 ### Task
@@ -107,6 +111,4 @@ Time difference of 4.375968 mins
 
 
 #### Author
-
 * [Christian Schulz](https://twitter.com/nnfuzzy) 
-* [www.mining-facts.com](http://www.mining-facts.com)

@@ -1,0 +1,4 @@
+pymongo
+profilehooks
+redis
+sqlalchemy-foundationdb
