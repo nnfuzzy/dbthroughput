@@ -7,7 +7,7 @@ interested if mongodb/pymongo is slower then others.  Data Mining is very often 
 recoding/aggregation  of transaction data. Finally I choose the timestamp->timeslot example , because it is universal 
 and could be extended.
 
-The realization for the different solutions might be not ideal. 
+The realization for the different solutions might be not ideal yet.
 
 
 ### Task
@@ -49,66 +49,9 @@ The realization for the different solutions might be not ideal.
 
 
 ```
+#### Results
 
+<img src="http://i.imgur.com/DL3L4CT.png">
 
-
-###  mongothroughput_python
-
-```
-pip install pymongo profilehooks --user
-
-usage: Throughput.py [-h] [-d DELAY] [-a] [-i] [-uids UIDS] [--version]
-
-Throughput
-
-optional arguments:
-  -h, --help  show this help message and exit
-  -d DELAY    delay in seconds - density of data [200]
-  -a          do aggregation [False]
-  -i          do inserts [False]
-  -uids UIDS  do inserts [1000]
-  --version   show program's version number and exit
-
-
-../mongothrouhput/mongothroughput_python (git)-[master] % ./Throughput.py -i -a    
-Better than expected
-
-#### Inserts 
-0:00:20.792899
-#### Upserts
-0:00:15.371772
-
-
-```
-
-### mongothroughput_clojure
-Bottleneck?
-
-```
-#### Inserts 
-Elapsed time: 38.840 seconds
-#### Upsert
-Elapsed time: 64.443 seconds
-
-```
-
-### mongothroughput_R
-Bottleneck?
-
-../mongothrouhput/mongothroughput_R/Rscript throughput_R.R 1000 200
-
-
-```
-#### Inserts
-Time difference of 3.374865 mins
-
-#### Upsert
-Time difference of 4.375968 mins
-
-
-```
-
-
-
-#### Author
+#### Contributors
 * [Christian Schulz](https://twitter.com/nnfuzzy) 

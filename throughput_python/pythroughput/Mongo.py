@@ -5,12 +5,13 @@ from  Core import Core
 
 class Mongo(Core):
 
-	def init_mongo(self, db_name='throughput', collection_name='python_throughput_src'):
+	def init_mongo(self, db_name='throughput', collection_name='python_throughput_src', drop=False):
 			try:
 				c = pymongo.Connection()
 				db= c[db_name]
 				collection=db[collection_name]
-				collection.drop()
+				if drop:
+					collection.drop()
 			except Exception, e:
 				print "Can't connect to mongodb!?"
 			return collection
@@ -35,10 +36,10 @@ class Mongo(Core):
 
 
 	def mongo_aggregator(self, src_collection, agg_collection):
-			agg_collection.ensure_index('id')
-			cursor = src_collection.find()
-			for doc in cursor:
-				id, ts = doc.get('id'), doc.get('ts')
-				weekday, hour = self.timestamp_lookup(ts)
-				timeslot = """{}_{}""".format(self.lookup_timeslot_day(weekday), hour)
-				agg_collection.update({'id': id}, {'$inc':{timeslot: 1}}, upsert=True)
+		agg_collection.ensure_index('id')
+		cursor = src_collection.find()
+		for doc in cursor:
+			id, ts = doc.get('id'), doc.get('ts')
+			weekday, hour = self.timestamp_lookup(ts)
+			timeslot = """{}_{}""".format(self.lookup_timeslot_day(weekday), hour)
+			agg_collection.update({'id': id}, {'$inc':{timeslot: 1}}, upsert=True)

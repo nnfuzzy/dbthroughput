@@ -12,7 +12,7 @@ def main():
 	parser = argparse.ArgumentParser(description="ExecThroughput", add_help=True)
 	parser.add_argument('-d', action='store', dest='delay', type=int, default=2000,
 	                    help='delay in seconds - density of data [%(default)s]')
-	parser.add_argument('-uids', action='store', dest='uids', default=1000, type=int,
+	parser.add_argument('-u', action='store', dest='uids', default=1000, type=int,
 	                    help='number of uids [%(default)s]')
 
 	parser.add_argument('-im', action='store_true', dest='insert_mongo', default=False,
@@ -41,21 +41,30 @@ def main():
 	if options.insert_mongo:
 		throughput_src = thr_mongo.init_mongo()
 		throughput_src.drop()
-		thr_mongo.insert_timestamp_values(throughput_src, amount_ids=options.uids, delay_sec=options.delay)
+		thr_mongo.insert_timestamp_values_mongo(throughput_src, amount_ids=options.uids, delay_sec=options.delay)
 
 
 	if options.aggregation_mongo:
+		throughput_src = thr_mongo.init_mongo()
 		throughput_agg = thr_mongo.init_mongo(collection_name='python_throughput_agg')
 		throughput_agg.drop()
 		thr_mongo.mongo_aggregator(throughput_src, throughput_agg)
 
 
 	if options.insert_redis:
-		redis_connection= thr_redis.init_redis()
-		thr_redis.flush_pattern(redis_connection, 'src*')
-		thr_redis.insert_timestamp_values_redis(redis_connection)
+		redis_connect= thr_redis.init_redis()
+		thr_redis.flush_pattern(redis_connect, 'src*')
+		thr_redis.insert_timestamp_values_redis(redis_connect, hash_prefix='src', 
+		                                       datetime_start='2013-01-01 00:00:00', 
+		                                       datetime_end='2014-01-01 00:00:00', 
+		                                       amount_ids=options.uids, 
+		                                       delay_sec=options.delay, 
+		                                       drop=True)
 
-
+	if options.aggregation_redis:
+		redis_connect=thr_redis.init_redis()
+		thr_redis.redis_aggregator(redis_connect, hash_prefix_src='src', 
+		                          hash_prefix_agg='agg')
 
 
 if __name__ == "__main__":

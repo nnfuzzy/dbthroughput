@@ -1,18 +1,15 @@
-library()
 
 
+rndint <- function(n) round(runif(1)*(n-1),0)
 
-rndint <- function(n) round(runif(1)*n,0)
 
-
-loop_insert <- function(dt_sequence,N_IDS,mongo,ns="throughput.r_throughput_src",drop=T){
+loop_insert <- function(dt_sequence,UIDS,mongo,ns,drop=TRUE){
 if(drop){
   mongo.drop(mongo,ns)
 }
 for(i in 1:(length(dt_sequence))){
   ts__ = as.numeric(dt_sequence[i])
-  #dt = ymd_hms(as.POSIXct(ts,origin = "1970-01-01"))
-  src_data <- mongo.bson.from.list(list(ts=ts__,id=rndint(N_IDS)))
+  src_data <- mongo.bson.from.list(list(ts=ts__,id=rndint(UIDS)))
   mongo.insert(mongo, ns,src_data)
 }
 }

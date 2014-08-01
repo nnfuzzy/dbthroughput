@@ -3,9 +3,9 @@
            [monger.collection :as mc :only [drop find-maps upsert ensure-index]]
            [monger.operators :refer :all]
            [clj-time.periodic :as time-period]
-           [clj-time.core :as tcore]
+           [clj-time.core :as tcore :only [seconds date-time]]
            [clj-time.format :as tf]
-           [clj-time.coerce :as tc]
+           [clj-time.coerce :as tc :only [from-long to-long]]
            [clj-time.periodic :as tp]
           ;[clojure.core.reducers :as r]
            [clojure.tools.cli :only (cli)])
@@ -56,14 +56,25 @@
 
 (defn -main [& args]
   (let [[opts args banner] (cli args
-                             ["-h" "--help" "Print this help"
-                              :default false :flag true]
+                             ["-h" "--help" "Print this help"   :default false :flag true]
                              ["-d" "--delay" "delay in seconds" :default 2000 :parse-fn #(Integer. %)]
-                             ["-u" "--uids" "number of uids" :default 1000 :parse-fn #(Integer. %)]
-                             )]
+                             ["-u" "--uids" "number of uids"    :default 1000 :parse-fn #(Integer. %)]
+                             ["-i" "--inserts" "insert in mongodb"    :default false :flag true]
+                             ["-a" "--aggregate" "aggregate in mongodb" :default false :flag true]
 
-    (time (insert_timestamp_values "throughput" "clojure_throughput_src" (dtsequence (:delay opts)) (:uids opts)))
-    (time (let [conn (mg/connect)
+
+                             )]
+    (when (:inserts opts)
+    (let [conn (mg/connect)
+                db (mg/get-db conn "throughput")
+                src "clojure_throughput_src"
+                agg "clojure_throughput_agg"]
+            (mc/drop db src))
+
+    (insert_timestamp_values "throughput" "clojure_throughput_src" (dtsequence (:delay opts)) (:uids opts)))
+
+    (when (:aggregate opts)
+    (let [conn (mg/connect)
                 db (mg/get-db conn "throughput")
                 src "clojure_throughput_src"
                 agg "clojure_throughput_agg"]
