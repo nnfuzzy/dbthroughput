@@ -30,6 +30,14 @@ meta="$(date +%Y-%m-%d);$cpu;$hd;$os;python_redis_inserts;$delay;$uids;%e"
 meta="$(date +%Y-%m-%d);$cpu;$hd;$os;python_redis_aggregate;$delay;$uids;%e"
 `\time -f "$meta" -a -o $filename throughput_python/ExecThroughput.py -ar  -d $delay -u $uids`
 
+#python_mysql
+meta="$(date +%Y-%m-%d);$cpu;$hd;$os;python_mysql_inserts;$delay;$uids;%e"
+`\time -f "$meta" -a -o $filename throughput_python/ExecThroughput.py -is  -d $delay -u $uids`
+meta="$(date +%Y-%m-%d);$cpu;$hd;$os;python_mysql_aggregate;$delay;$uids;%e"
+`\time -f "$meta" -a -o $filename throughput_python/ExecThroughput.py -as -d $delay -u $uids`
+
+
+
 #R_mongo
 meta="$(date +%Y-%m-%d);$cpu;$hd;$os;r_mongo_inserts;$delay;$uids;%e"
 `\time -f "$meta" -a -o $filename Rscript throughput_R/throughput_R.R $delay $uids 1`

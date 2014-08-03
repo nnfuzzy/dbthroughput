@@ -5,7 +5,7 @@ import datetime
 from pythroughput import Mongo
 from pythroughput import Redis
 from pythroughput import Core
-
+from pythroughput import MySQL
 
 
 def main():
@@ -21,12 +21,17 @@ def main():
 	parser.add_argument('-ir', action='store_true', dest='insert_redis', default=False,
 	                    help='do inserts into redis[%(default)s]')
 
+	parser.add_argument('-is', action='store_true', dest='insert_mysql', default=False,
+	                    help='do inserts into mysql[%(default)s]')
+
 	parser.add_argument('-am', action='store_true', dest='aggregation_mongo', default=False,
 	                    help='do aggregation in mongodb [%(default)s]')
 
 	parser.add_argument('-ar', action='store_true', dest='aggregation_redis', default=False,
 	                    help='do aggregation in redis [%(default)s]')
 
+	parser.add_argument('-as', action='store_true', dest='aggregation_mysql', default=False,
+	                    help='do aggregation in mysql [%(default)s]')
 
 
 	parser.add_argument('--version', action='version', version='%(prog)s 0.1')
@@ -65,6 +70,24 @@ def main():
 		redis_connect=thr_redis.init_redis()
 		thr_redis.redis_aggregator(redis_connect, hash_prefix_src='src', 
 		                          hash_prefix_agg='agg')
+
+
+	if options.insert_mysql:
+		my = MySQL()
+		mysql_connection = my.initMySQL('localhost', 'dbthroughput', 'test', 'dbthroughput')
+		my.init_mysql_table(mysql_connection, tablename='src',  drop=True)
+		my.insert_timestamp_values_mysql(mysql_connection, 
+		                                datetime_start='2013-01-01 00:00:00', 
+		                                datetime_end='2014-01-01 00:00:00', 
+		                                amount_ids=options.uids, 
+		                                delay_sec=options.delay, 
+		                                tablename='src')		
+		
+	if options.aggregation_mysql:
+		my = MySQL()
+		mysql_connection = my.initMySQL('localhost', 'dbthroughput', 'test', 'dbthroughput')
+		my.init_mysql_table(mysql_connection, tablename='agg',  drop=True)
+		my.myql_aggregator(mysql_connection, src_table='src', agg_table='agg')
 
 
 if __name__ == "__main__":

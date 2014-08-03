@@ -3,6 +3,7 @@ import datetime
 import random
 from Core import Core
 import numpy as np
+import fdb
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Date, Numeric, ForeignKey
@@ -44,7 +45,7 @@ class Foundation(Core):
 	    session = Session()    
 
 	    while ts_start < ts_end:
-		    add_src_data = Transaction(uid = random.randint(1, amount_ids), ts = ts_start)
-		    session.add(add_src_data)
-		    session.commit()
-		    ts_start += delay_sec
+		  add_src_data = Transaction(uid = random.randint(1, amount_ids), ts = ts_start)
+		  session.add(add_src_data)
+		  session.commit()
+		  ts_start += delay_sec
