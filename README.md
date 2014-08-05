@@ -50,6 +50,14 @@ The realization for the different solutions might be not ideal yet.
 
 ```
 #### Results
+Isolation isn't perfect, helper functions and delete operations are in the timings included.
+
+* R/Redis: What's wrong here ~ 24 ops/second? It is well-known that loops are bad in R. As well the deletes are very bad. With python it takes < 1 second.
+* Python/MySQL: RDBMS are difficult with dynamic table designs (flat table) , because repeated 'alter table' commands are not approriate.
+So I decided using an "aggregated" transaction result table.
+
+
+
 
 <img src="http://i.imgur.com/DL3L4CT.png">
 

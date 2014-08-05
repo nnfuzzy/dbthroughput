@@ -55,3 +55,9 @@ class Redis(Core):
 				timeslot = """{}_{}""".format(self.lookup_timeslot_day(weekday), hour)
 				id = id_string.split("""{}:""".format(hash_prefix_src))[1]
 				redis_connect.hincrby("""{}:{}""".format(hash_prefix_agg,id),timeslot,1)
+				
+
+if __name__ ==  "__main__":
+	rd = Redis()
+	r = rd.init_redis()
+	rd.flush_pattern(r, 'agg*')

@@ -64,6 +64,8 @@
 
 
                              )]
+    (when (:help opts)
+      (println banner))
     (when (:inserts opts)
     (let [conn (mg/connect)
                 db (mg/get-db conn "throughput")

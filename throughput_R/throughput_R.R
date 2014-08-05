@@ -3,33 +3,44 @@
 options(warn=-1)
 library(rmongodb)
 library(lubridate)
-library(plyr)
-library(rbenchmark)
+library(rredis)
 
+#You have to run the starter script from path dbthroughput
 path <- getwd()
-source(sprintf('%s/%s',path,"throughput_R/mongothroughput_fun.R"))
+source(sprintf('%s/%s',path,"throughput_R/core.R"))
+source(sprintf('%s/%s',path,"throughput_R/mongo.R"))
+source(sprintf('%s/%s',path,"throughput_R/redis.R"))
+
 
 args <- commandArgs(TRUE)
 DELAY <- as.numeric(args[1])
 UIDS <-  as.numeric(args[2])
 INSERT_FLAG <- as.numeric(args[3])
+DB_FLAG <- args[4]
 
-mongo <- mongo.create(db='throughput')
+
+if(DB_FLAG == 'mongodb'){
+  mongo <- mongo.create(db='throughput')
+  if(INSERT_FLAG==1) {
+    mongo <- mongo.create(db='throughput')
+    ns <- "throughput.r_throughput_src"
+    #insert loop 
+    loop_insert_mongo(dt_sequence(DELAY),UIDS,mongo,ns,TRUE)
+  } else {
+    #aggregation  
+    ns <- "throughput.r_throughput_agg"
+    mongo.index.create(mongo, ns, '{"id":1}')
+    loop_aggregation_mongo(mongo,ns_src="throughput.r_throughput_src",ns_agg="throughput.r_throughput_agg",drop=T)
+  }
+} 
 
 
-if(INSERT_FLAG==1) {
+if(DB_FLAG == 'redis'){
+  redisConnect()
+  if(INSERT_FLAG==1) {
+    loop_insert_redis(dt_sequence(DELAY),hash_prefix ='src',UIDS=UIDS,drop=TRUE)
+  } else {
+    loop_aggregation_redis('src','agg')  
+  }
+} 
 
-dt_sequence <- seq(from =as.POSIXct('2013-01-01 00:00:00',tz = '%Y-%m-%d %H:%M:%S',origin="1970-01-01"),
-to=as.POSIXct('2014-01-01 00:00:00',tz='%Y-%m-%d %H:%M:%S',origin="1970-01-01"),
-by=DELAY)
-
-mongo <- mongo.create(db='throughput')
-ns <- "throughput.r_throughput_src"
-#insert loop 
-loop_insert(dt_sequence,UIDS,mongo,ns,TRUE)
-} else {
-#aggregation  
-ns <- "throughput.r_throughput_agg"
-mongo.index.create(mongo, ns, '{"id":1}')
-loop_aggregation(mongo,ns_src="throughput.r_throughput_src",ns_agg="throughput.r_throughput_agg",drop=T)
-}
