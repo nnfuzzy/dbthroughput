@@ -59,7 +59,7 @@ So I decided using an "aggregated" transaction result table.
 
 
 
-<img src="http://i.imgur.com/http://imgur.com/ETvayOP">
+<img src="http://i.imgur.com/ETvayOP.png">
 
 #### Contributors
 * [Christian Schulz](https://twitter.com/nnfuzzy) 
