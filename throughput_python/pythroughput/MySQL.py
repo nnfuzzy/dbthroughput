@@ -26,11 +26,11 @@ class MySQL(Core):
             cur.execute(""" Drop table if exists {} """.format(tablename))
 
         if tablename == 'src':
-            q = """ Create table src ( id integer(10)  , tstamp bigint(10)) """
+            q = """ Create table src ( id integer(10)  , tstamp bigint(10)) ENGINE=MyISAM; """
             cur.execute(q)   
             
         else:
-            q =  """ Create table agg (id integer(10) , timeslot varchar(6), cnt int(10)) """
+            q =  """ Create table agg (id integer(10) , timeslot varchar(6), cnt int(10)) ENGINE=MyISAM; """
             cur.execute(q)
             cur.execute(""" Create UNIQUE INDEX agg_ix_1 on agg (id,timeslot) """)
         
@@ -65,13 +65,6 @@ class MySQL(Core):
 		u = """ Insert into {} (id,timeslot,cnt) VALUES (%s, '%s', %s)  ON DUPLICATE KEY UPDATE cnt = cnt +1 """.format(agg_table) % (id,timeslot,cnt)
 		cur.execute(u)
 	return
-
-
-if  __name__ == "__main__":
-    my = MySQL()
-    mysql_connection = my.initMySQL('localhost', 'dbthroughput', 'test', 'dbthroughput')
-    my.init_mysql_table(mysql_connection, tablename='src',  drop=True)
-    my.init_mysql_table(mysql_connection, tablename='agg', drop=True)
     
     
     

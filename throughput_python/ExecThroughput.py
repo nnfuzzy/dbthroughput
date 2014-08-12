@@ -75,6 +75,7 @@ def main():
 	if options.insert_mysql:
 		my = MySQL()
 		mysql_connection = my.initMySQL('localhost', 'dbthroughput', 'test', 'dbthroughput')
+		mysql_connection.autocommit = True
 		my.init_mysql_table(mysql_connection, tablename='src',  drop=True)
 		my.insert_timestamp_values_mysql(mysql_connection, 
 		                                datetime_start='2013-01-01 00:00:00', 
@@ -86,6 +87,7 @@ def main():
 	if options.aggregation_mysql:
 		my = MySQL()
 		mysql_connection = my.initMySQL('localhost', 'dbthroughput', 'test', 'dbthroughput')
+		mysql_connection.autocommit = True
 		my.init_mysql_table(mysql_connection, tablename='agg',  drop=True)
 		my.myql_aggregator(mysql_connection, src_table='src', agg_table='agg')
 

@@ -57,9 +57,11 @@ Isolation isn't perfect, helper functions and delete operations are in the timin
 So I decided using an "aggregated" transaction result table.
 
 
+<img src="http://i.imgur.com/oXsm38H.png">
 
+#### Results without R
 
-<img src="http://i.imgur.com/ETvayOP.png">
+<img src="http://i.imgur.com/vSbYF2z.png">
 
 #### Contributors
-* [Christian Schulz](https://twitter.com/nnfuzzy) 
+* [Christian Schulz](https://twitter.com/nnfuzzy)
