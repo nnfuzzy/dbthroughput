@@ -8,6 +8,7 @@
     [clj-time.coerce :as tc :only [from-long to-long]]
     ;[clojure.core.reducers :as r]
     [clojure.tools.cli :as cli]
+    [clojure.string :as str]
     [taoensso.carmine :as car :refer (wcar)])
   (:gen-class :main true))
 
@@ -55,10 +56,16 @@
   (doseq [item dtsequence] (wcar* (car/hset (format "%s:%s" 'src (setid uids)) (trans item) nil))))
 
 
+
+(defn getkeys [prefix] (wcar* (car/keys prefix)))
+
 (defn prepare_data_redis [tstamp]
   (get_timeslot
     (get_dt tstamp
       )))
+
+(defn flush_pattern [prefix]
+  (doseq [item (getkeys prefix)] (wcar* (wcar* (car/del item)))))
 
 
 (defn -main [& args]
@@ -70,6 +77,8 @@
                              ["-a" "--aggregate_mongodb" "aggregate in mongodb" :default false :flag true]
                              ["-r" "--inserts_redis" "insert in redis" :default false :flag true]
                              ["-s" "--aggregate_redis" "aggregate in redis" :default false :flag true]
+                             ["-f" "--flush_pattern_redis" "flush keys with pattern in redis"]
+
                              )]
 
     (when (:help opts)
@@ -99,12 +108,17 @@
     (when (:inserts_redis opts)
       (insert_timestamp_values_redis (dtsequence (:delay opts)) (:uids opts))
       )
+
     (when (:aggregate_redis opts)
-      (doseq [item (get_keys "src*")]
+      (flush_pattern "agg*")
+      (doseq [item (getkeys "src*")]
         (let [uid (last (str/split item #":"))]
           (doseq [ts (wcar* (car/hkeys item))]
             (wcar* (car/hincrby (str/join ":" ["agg" uid])
                      (prepare_data_redis (read-string ts)) 1)))))
+      )
+    (when (:flush_pattern_redis opts)
+      (flush_pattern (:flush_pattern_redis opts))
       )
     ))
 
