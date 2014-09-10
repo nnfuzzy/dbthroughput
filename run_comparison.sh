@@ -13,7 +13,6 @@ uids=$2
 meta="$(date +%Y-%m-%d);$cpu;$hd;$os;clojure_mongodb_inserts;$delay;$uids;%e"
 `\time -f "$meta" -a -o  $filename   throughput_clojure/target/mongothroughput_clojure-1.0.0-SNAPSHOT -i -d $delay -u $uids`
 
-
 meta="$(date +%Y-%m-%d);$cpu;$hd;$os;clojure_mongodb_aggregate;$delay;$uids;%e"
 `\time -f "$meta" -a -o  $filename   throughput_clojure/target/mongothroughput_clojure-1.0.0-SNAPSHOT -a -d $delay -u $uids`
 
@@ -50,3 +49,10 @@ meta="$(date +%Y-%m-%d);$cpu;$hd;$os;r_redis_inserts;$delay;$uids;%e"
 `\time -f "$meta" -a -o $filename Rscript throughput_R/throughput_R.R $delay $uids 1 redis`
 meta="$(date +%Y-%m-%d);$cpu;$hd;$os;r_redis_aggregate;$delay;$uids;%e"
 `\time -f "$meta" -a -o $filename Rscript throughput_R/throughput_R.R $delay $uids 0 redis`
+
+#clojure_redis
+meta="$(date +%Y-%m-%d);$cpu;$hd;$os;clojure_redis_inserts;$delay;$uids;%e"
+`\time -f "$meta" -a -o  $filename   throughput_clojure/target/mongothroughput_clojure-1.0.0-SNAPSHOT -s -d $delay -u $uids`
+
+meta="$(date +%Y-%m-%d);$cpu;$hd;$os;clojure_redis_aggregate;$delay;$uids;%e"
+`\time -f "$meta" -a -o  $filename   throughput_clojure/target/mongothroughput_clojure-1.0.0-SNAPSHOT -r -d $delay -u $uids`
