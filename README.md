@@ -49,7 +49,16 @@ The realization for the different solutions might be not ideal yet.
 
 
 ```
-#### Results
+#### Results 2015 , especially comparison between redis and mongodb (mmapv1,wiredTiger)
+
+I'm wondering why wiredTiger isn't faster?
+
+* sudo /usr/bin/mongod  --dbpath /var/lib/mongodb --storageEngine=wiredTiger --wiredTigerStatisticsLogDelaySecs=0 --wiredTigerCollectionBlockCompressor=none
+
+<a href="http://imgur.com/9DBjXC3"><img src="http://i.imgur.com/9DBjXC3.png" title="source: imgur.com" /></a>
+
+#### Results 2014
+
 Isolation isn't perfect, helper functions and delete operations are in the timings included.
 
 * R/Redis: What's wrong here ~ 24 ops/second? It is well-known that loops are bad in R. As well the deletes are very bad. With python it takes < 1 second.
@@ -58,10 +67,6 @@ So I decided using an "aggregated" transaction result table.
 
 
 <img src="http://i.imgur.com/oXsm38H.png">
-
-#### Results without R
-
-<img src="http://i.imgur.com/vSbYF2z.png">
 
 #### Contributors
 * [Christian Schulz](https://twitter.com/nnfuzzy)

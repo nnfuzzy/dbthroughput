@@ -1,0 +1,12 @@
+2015-02-27;Intel(R)Core(TM)i7CPU920@2.67GHz;;Linux 3.13.0-32-generic;clojure_mongodb_wiredTiger_inserts;10;25000;932.18
+2015-02-27;Intel(R)Core(TM)i7CPU920@2.67GHz;;Linux 3.13.0-32-generic;clojure_mongodb_wiredTiger_aggregate;10;25000;1351.79
+2015-02-27;Intel(R)Core(TM)i7CPU920@2.67GHz;;Linux 3.13.0-32-generic;clojure_redis_inserts;10;25000;190.77
+2015-02-27;Intel(R)Core(TM)i7CPU920@2.67GHz;;Linux 3.13.0-32-generic;clojure_redis_aggregate;10;25000;571.29
+2015-02-27;Intel(R)Core(TM)i7CPU920@2.67GHz;;Linux 3.13.0-32-generic;python_mongodb_wiredTiger_inserts;10;25000;309.04
+2015-02-27;Intel(R)Core(TM)i7CPU920@2.67GHz;;Linux 3.13.0-32-generic;python_mongodb_wiredTiger_aggregate;10;25000;332.04
+2015-02-27;Intel(R)Core(TM)i7CPU920@2.67GHz;;Linux 3.13.0-32-generic;python_redis_inserts;10;25000;387.28
+2015-02-27;Intel(R)Core(TM)i7CPU920@2.67GHz;;Linux 3.13.0-32-generic;python_redis_aggregate;10;25000;577.30
+2015-02-27;Intel(R)Core(TM)i7CPU920@2.67GHz;;Linux 3.13.0-32-generic;clojure_mongodb_mmapv1_inserts;10;25000;853.60
+2015-02-27;Intel(R)Core(TM)i7CPU920@2.67GHz;;Linux 3.13.0-32-generic;clojure_mongodb_mmapv1_aggregate;10;25000;1234.45
+2015-02-27;Intel(R)Core(TM)i7CPU920@2.67GHz;;Linux 3.13.0-32-generic;python_mongodb_mmapv1_inserts;10;25000;315.58
+2015-02-27;Intel(R)Core(TM)i7CPU920@2.67GHz;;Linux 3.13.0-32-generic;python_mongodb_mmapv1_aggregate;10;25000;343.82
