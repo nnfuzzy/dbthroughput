@@ -55,9 +55,16 @@ I'm wondering why wiredTiger isn't faster?
 
 * sudo /usr/bin/mongod  --dbpath /var/lib/mongodb --storageEngine=wiredTiger --wiredTigerStatisticsLogDelaySecs=0 --wiredTigerCollectionBlockCompressor=none
 
-<a href="http://imgur.com/9DBjXC3"><img src="http://i.imgur.com/9DBjXC3.png" title="source: imgur.com" /></a>
+##### Inserts
 
-#### Results 2014
+<a href="http://imgur.com/AZWgvdW"><img src="http://i.imgur.com/AZWgvdW.png" title="source: imgur.com" /></a>
+
+##### Aggregation
+
+<a href="http://imgur.com/qflTYb4"><img src="http://i.imgur.com/qflTYb4.png" title="source: imgur.com" /></a>
+
+
+#### Old Results 2014
 
 Isolation isn't perfect, helper functions and delete operations are in the timings included.
 
